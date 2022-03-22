@@ -88,7 +88,7 @@ jobs:
           lambda-functions: '{ "divisio": "true" }'
           zip-params: "**/*.js **/*.json **/*.js.map node_modules/"
 
-lint-sum:
+  lint-sum:
     if: needs.filter.outputs.sum == 'true'
     name: sum - code analysis
     needs: [filter]
@@ -147,7 +147,7 @@ lint-sum:
           lambda-functions: '{ "divisio": "true" }'
           zip-params: "**/*.js **/*.json **/*.js.map node_modules/"
 
-lint-multiplication:
+  lint-multiplication:
     if: needs.filter.outputs.multiplication == 'true'
     name: multiplication - code analysis
     needs: [filter]
@@ -206,7 +206,7 @@ lint-multiplication:
           lambda-functions: '{ "divisio": "true" }'
           zip-params: "**/*.js **/*.json **/*.js.map node_modules/"
 
-lint-subtract:
+  lint-subtract:
     if: needs.filter.outputs.subtract == 'true'
     name: subtract - code analysis
     needs: [filter]
