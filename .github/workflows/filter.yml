@@ -1,0 +1,8 @@
+division:
+  - "functions/division/**/*"
+multiplication:
+  - "functions/multiplication/**/*"
+subtract:
+  - "functions/subtract/**/*"
+sum:
+  - "functions/sum/**/*"
