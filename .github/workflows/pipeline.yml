@@ -41,12 +41,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16
-      - name: Go to
-        run: cd functions/division
       - name: Install dependencies
         run: npm install
+        working-directory: functions/division
       - name: Lint
         run: npm run lint
+        working-directory: functions/division
 
   test-division:
     if: needs.filter.outputs.division == 'true'
@@ -60,12 +60,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16
-      - name: Go to
-        run: cd functions/division
       - name: Install dependencies
         run: npm install
+        working-directory: functions/division
       - name: Lint
         run: npm run lint
+        working-directory: functions/division
 
   deploy-division:
     name: division - tests
