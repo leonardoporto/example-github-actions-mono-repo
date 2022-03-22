@@ -14,6 +14,8 @@ jobs:
   filter:
     name: filter
     runs-on: ubuntu-latest
+    outputs:
+      infra: "${{ steps.filter.outputs.functions }}"
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
@@ -25,7 +27,7 @@ jobs:
           filters: ".github/workflows/filter.yml"
 
   lint-division:
-    if: needs.filter.outputs.division == 'true'
+    if: needs.filter.outputs.functions.division == 'true'
     name: division - code analysis
     needs: [filter]
     runs-on: ubuntu-latest
