@@ -27,7 +27,7 @@ jobs:
         uses: dorny/paths-filter@v2
         id: filter
         with:
-          filters: ".github/filter.yml"
+          filters: ".github/filters.yml"
 
   lint-division:
     if: needs.filter.outputs.division == 'true'
@@ -67,8 +67,31 @@ jobs:
         run: npm run lint
         working-directory: functions/division
 
-  deploy-division:
-    name: division - tests
+  deploy-division-staging:
+    if: startsWith(github.ref, 'refs/tags/') == false && github.event_name != 'pull_request'
+    name: staging
+    needs: [lint-division, test-division]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # - name: Configure AWS Credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: "sa-east-1"
+
+      - name: Deploy to AWS
+        uses: blombard/lambda-monorepo@master
+        with:
+          lambda-functions: '{ "divisio": "true" }'
+          zip-params: "**/*.js **/*.json **/*.js.map node_modules/"
+
+  deploy-division-production:
+    if: startsWith(github.ref, 'refs/tags/') == true && github.event_name != 'pull_request'
+    name: production
     needs: [lint-division, test-division]
     runs-on: ubuntu-latest
     steps:
@@ -126,8 +149,9 @@ jobs:
         run: npm run lint
         working-directory: functions/sum
 
-  deploy-sum:
-    name: sum - tests
+  deploy-sum-staging:
+    if: startsWith(github.ref, 'refs/tags/') == false && github.event_name != 'pull_request'
+    name: staging
     needs: [lint-sum, test-sum]
     runs-on: ubuntu-latest
     steps:
@@ -144,7 +168,29 @@ jobs:
       - name: Deploy to AWS
         uses: blombard/lambda-monorepo@master
         with:
-          lambda-functions: '{ "divisio": "true" }'
+          lambda-functions: '{ "sum": "true" }'
+          zip-params: "**/*.js **/*.json **/*.js.map node_modules/"
+  
+  deploy-sum-production:
+    if: startsWith(github.ref, 'refs/tags/') == true && github.event_name != 'pull_request'
+    name: production
+    needs: [lint-sum, test-sum]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # - name: Configure AWS Credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: "sa-east-1"
+
+      - name: Deploy to AWS
+        uses: blombard/lambda-monorepo@master
+        with:
+          lambda-functions: '{ "sum": "true" }'
           zip-params: "**/*.js **/*.json **/*.js.map node_modules/"
 
   lint-multiplication:
@@ -185,8 +231,9 @@ jobs:
         run: npm run lint
         working-directory: functions/multiplication
 
-  deploy-multiplication:
-    name: multiplication - tests
+  deploy-multiplication-staging:
+    if: startsWith(github.ref, 'refs/tags/') == false && github.event_name != 'pull_request'
+    name: staging
     needs: [lint-multiplication, test-multiplication]
     runs-on: ubuntu-latest
     steps:
@@ -203,7 +250,29 @@ jobs:
       - name: Deploy to AWS
         uses: blombard/lambda-monorepo@master
         with:
-          lambda-functions: '{ "divisio": "true" }'
+          lambda-functions: '{ "multiplication": "true" }'
+          zip-params: "**/*.js **/*.json **/*.js.map node_modules/"
+  
+  deploy-multiplication-production:
+    if: startsWith(github.ref, 'refs/tags/') == true && github.event_name != 'pull_request'
+    name: production
+    needs: [lint-multiplication, test-multiplication]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # - name: Configure AWS Credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: "sa-east-1"
+
+      - name: Deploy to AWS
+        uses: blombard/lambda-monorepo@master
+        with:
+          lambda-functions: '{ "multiplication": "true" }'
           zip-params: "**/*.js **/*.json **/*.js.map node_modules/"
 
   lint-subtract:
@@ -244,8 +313,9 @@ jobs:
         run: npm run lint
         working-directory: functions/subtract
 
-  deploy-subtract:
-    name: subtract - tests
+  deploy-subtract-staging:
+    if: startsWith(github.ref, 'refs/tags/') == false && github.event_name != 'pull_request'
+    name: staging
     needs: [lint-subtract, test-subtract]
     runs-on: ubuntu-latest
     steps:
@@ -262,6 +332,28 @@ jobs:
       - name: Deploy to AWS
         uses: blombard/lambda-monorepo@master
         with:
-          lambda-functions: '{ "divisio": "true" }'
+          lambda-functions: '{ "subtract": "true" }'
+          zip-params: "**/*.js **/*.json **/*.js.map node_modules/"
+  
+  deploy-subtract-production:
+    if: startsWith(github.ref, 'refs/tags/') == true && github.event_name != 'pull_request'
+    name: production
+    needs: [lint-subtract, test-subtract]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # - name: Configure AWS Credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: "sa-east-1"
+
+      - name: Deploy to AWS
+        uses: blombard/lambda-monorepo@master
+        with:
+          lambda-functions: '{ "subtract": "true" }'
           zip-params: "**/*.js **/*.json **/*.js.map node_modules/"
 
