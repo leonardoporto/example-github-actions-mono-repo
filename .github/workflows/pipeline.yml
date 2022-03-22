@@ -16,9 +16,9 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       division: "${{ steps.filter.outputs.division }}"
-      # division: "${{ steps.filter.outputs.division }}"
-      # division: "${{ steps.filter.outputs.division }}"
-      # division: "${{ steps.filter.outputs.division }}"
+      multiplication: "${{ steps.filter.outputs.multiplication }}"
+      subtract: "${{ steps.filter.outputs.subtract }}"
+      sum: "${{ steps.filter.outputs.sum }}"
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
@@ -87,3 +87,181 @@ jobs:
         with:
           lambda-functions: '{ "divisio": "true" }'
           zip-params: "**/*.js **/*.json **/*.js.map node_modules/"
+
+lint-sum:
+    if: needs.filter.outputs.sum == 'true'
+    name: sum - code analysis
+    needs: [filter]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup NodeJS
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+      - name: Install dependencies
+        run: npm install
+        working-directory: functions/sum
+      - name: Lint
+        run: npm run lint
+        working-directory: functions/sum
+
+  test-sum:
+    if: needs.filter.outputs.sum == 'true'
+    name: sum - tests
+    needs: [filter]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup NodeJS
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+      - name: Install dependencies
+        run: npm install
+        working-directory: functions/sum
+      - name: Lint
+        run: npm run lint
+        working-directory: functions/sum
+
+  deploy-sum:
+    name: sum - tests
+    needs: [lint-sum, test-sum]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # - name: Configure AWS Credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: "sa-east-1"
+
+      - name: Deploy to AWS
+        uses: blombard/lambda-monorepo@master
+        with:
+          lambda-functions: '{ "divisio": "true" }'
+          zip-params: "**/*.js **/*.json **/*.js.map node_modules/"
+
+lint-multiplication:
+    if: needs.filter.outputs.multiplication == 'true'
+    name: multiplication - code analysis
+    needs: [filter]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup NodeJS
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+      - name: Install dependencies
+        run: npm install
+        working-directory: functions/multiplication
+      - name: Lint
+        run: npm run lint
+        working-directory: functions/multiplication
+
+  test-multiplication:
+    if: needs.filter.outputs.multiplication == 'true'
+    name: multiplication - tests
+    needs: [filter]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup NodeJS
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+      - name: Install dependencies
+        run: npm install
+        working-directory: functions/multiplication
+      - name: Lint
+        run: npm run lint
+        working-directory: functions/multiplication
+
+  deploy-multiplication:
+    name: multiplication - tests
+    needs: [lint-multiplication, test-multiplication]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # - name: Configure AWS Credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: "sa-east-1"
+
+      - name: Deploy to AWS
+        uses: blombard/lambda-monorepo@master
+        with:
+          lambda-functions: '{ "divisio": "true" }'
+          zip-params: "**/*.js **/*.json **/*.js.map node_modules/"
+
+lint-subtract:
+    if: needs.filter.outputs.subtract == 'true'
+    name: subtract - code analysis
+    needs: [filter]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup NodeJS
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+      - name: Install dependencies
+        run: npm install
+        working-directory: functions/subtract
+      - name: Lint
+        run: npm run lint
+        working-directory: functions/subtract
+
+  test-subtract:
+    if: needs.filter.outputs.subtract == 'true'
+    name: subtract - tests
+    needs: [filter]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup NodeJS
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+      - name: Install dependencies
+        run: npm install
+        working-directory: functions/subtract
+      - name: Lint
+        run: npm run lint
+        working-directory: functions/subtract
+
+  deploy-subtract:
+    name: subtract - tests
+    needs: [lint-subtract, test-subtract]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # - name: Configure AWS Credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: "sa-east-1"
+
+      - name: Deploy to AWS
+        uses: blombard/lambda-monorepo@master
+        with:
+          lambda-functions: '{ "divisio": "true" }'
+          zip-params: "**/*.js **/*.json **/*.js.map node_modules/"
+
