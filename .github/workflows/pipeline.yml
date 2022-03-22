@@ -15,7 +15,10 @@ jobs:
     name: filter
     runs-on: ubuntu-latest
     outputs:
-      functions: "${{ steps.filter.outputs }}"
+      division: "${{ steps.filter.outputs.division }}"
+      # division: "${{ steps.filter.outputs.division }}"
+      # division: "${{ steps.filter.outputs.division }}"
+      # division: "${{ steps.filter.outputs.division }}"
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
@@ -27,7 +30,7 @@ jobs:
           filters: ".github/filter.yml"
 
   lint-division:
-    if: needs.filter.outputs.functions.division == 'true'
+    if: needs.filter.outputs.division == 'true'
     name: division - code analysis
     needs: [filter]
     runs-on: ubuntu-latest
