@@ -29,14 +29,10 @@ jobs:
         with:
           filters: ".github/filters.yml"
 
-  division: 
-    if: needs.filter.outputs.division == 'true'
-    needs: [filter]
-    name: division
-
   lint-division:
+    if: needs.filter.outputs.division == 'true'
     name: division - code analysis
-    needs: [division]
+    needs: [filter]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -53,8 +49,9 @@ jobs:
         working-directory: functions/division
 
   test-division:
+    if: needs.filter.outputs.division == 'true'
     name: division - tests
-    needs: [division]
+    needs: [filter]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
