@@ -4,9 +4,7 @@ ZIP_PARAMS=$3
 ALIAS_NAME=$4
 LAYER_NAME=$5
 
-if [ -n "$PATH_NAME" ]; then cd $PATH_NAME; fi
-
-if [[ $ZIP_PARAMS == *"node_modules"* ]]; then npm install --only=prod; fi
+if [ -n "$PATH_NAME" ]; then cd $PATH_NAME && npm install --only=prod && npm run build && mv dist/* .; fi
 
 zip lambda.zip -r $ZIP_PARAMS
 

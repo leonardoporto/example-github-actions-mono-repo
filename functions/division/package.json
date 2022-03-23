@@ -4,6 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "prebuild": "npm install --production=false",
+    "postbuild": "npm prune --production",
     "build": "tsc",
     "test": "jest",
     "lint": "eslint '**/*.ts'",
