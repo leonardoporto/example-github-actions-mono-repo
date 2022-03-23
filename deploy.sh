@@ -6,7 +6,7 @@ LAYER_NAME=$5
 
 if [ -n "$PATH_NAME" ]; then cd $PATH_NAME && npm install --only=prod && npm run build && mv dist/* .; fi
 
-zip lambda.zip -r $ZIP_PARAMS
+zip lambda.zip -R '*.js' '*.js.map' '**/*.js' '**/*.json' '**/*.js.map' 'node_modules/'
 
 # if [ -n "$LAYER_NAME" ]; then LAYER=$(aws lambda list-layer-versions --layer-name $LAYER_NAME | jq -r .LayerVersions[0].LayerVersionArn); fi
 
