@@ -86,7 +86,7 @@ jobs:
       - name: Deploy to AWS
         uses: blombard/lambda-monorepo@master
         with:
-          lambda-functions: '{ "divisio": "true" }'
+          lambda-functions: '{ "division": "true" }'
           zip-params: "**/*.js **/*.json **/*.js.map node_modules/"
 
   deploy-division-production:
@@ -108,7 +108,7 @@ jobs:
       - name: Deploy to AWS
         uses: blombard/lambda-monorepo@master
         with:
-          lambda-functions: '{ "divisio": "true" }'
+          lambda-functions: '{ "division": "true" }'
           zip-params: "**/*.js **/*.json **/*.js.map node_modules/"
 
   lint-sum:
